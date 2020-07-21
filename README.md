@@ -1,5 +1,3 @@
-# TechClass 
-
 ## 目录
 
 [TOC]
@@ -12,9 +10,13 @@
 
 获得更好的阅读体验，可点击这里[在线阅读](https://lemonchann.github.io/TechClass/)
 
-项目名称来源于同名个人技术公众号「**后端技术学堂**」，分享、记录、成长，**目标是成为技术人的充电学堂**，欢迎扫码关注。
+项目名称来源于同名个人技术公众号「**后端技术学堂**」，**目标是成为技术人的充电学堂**。
 
-![公众号二维码](https://upload-images.jianshu.io/upload_images/7842464-15f939ec039690f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+**欢迎扫码关注，分享、记录、成长！**
+
+<p align="center">
+<img src="https://upload-images.jianshu.io/upload_images/7842464-15f939ec039690f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="300" height="300"/>
+</p>
 
 ## Linux
 
