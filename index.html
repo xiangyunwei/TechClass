@@ -20,10 +20,11 @@
 	
     window.$docsify = {
       name: 'TechClass',
-      repo: 'https://github.com/lemonchann/TechClass'
+      repo: 'https://github.com/lemonchann/TechClass',
 	  maxLevel: 4,//最大支持渲染的标题层级
       coverpage: true,//封面,_coverpage.md
       auto2top: true,//切换页面后是否自动跳转到页面顶部
+	  loadNavbar: true//页面上方导航栏
     }
 	
 	search: {
@@ -38,8 +39,11 @@
         EditOnGithubPlugin.create('https://github.com/lemonchann/TechClass/blob/master/')
       ],
 	  
-  </script>
+  </script>  
+  <script src="//unpkg.com/docsify"></script>
+  <!--
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  -->
   <!--Java代码高亮-->
   <script src="//unpkg.com/prismjs/components/prism-java.js"></script>
   <!--全文搜索,直接用官方提供的无法生效-->
