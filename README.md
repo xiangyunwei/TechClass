@@ -15,16 +15,17 @@
 **欢迎扫码关注，分享、记录、成长！**
 
 <p align="center">
-<img src="https://upload-images.jianshu.io/upload_images/7842464-15f939ec039690f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="300" height="300"/>
+<img src="https://cdn.jsdelivr.net/gh/lemonchann/images/gzh/公众号二维码.png" width="300" height="300"/>
 </p>
+
 
 ## Linux
 
-[浅谈 Linux 内存管理](linux/linux内存管理/浅谈linux内存管理.md)
+[浅谈 Linux 内存管理](linux/浅谈linux内存管理.md)
 
-[浅谈 Linux 物理页管理](linux/linux物理页管理/linux物理页管理算法.md)
+[浅谈 Linux 物理页管理](linux/linux物理页管理算法.md)
 
-[6 个分析 Linux 进程的调试工具](linux/进程分析6种方法/linux_tools_cmd.md)
+[6 个分析 Linux 进程的调试工具](linux/linux_tools_cmd.md)
 
 [一种 Linux 日期命令的不常见用法](linux/2020-2-12-linux_date.md)
 
@@ -36,11 +37,11 @@
 
 ## 后端技术
 
-[高并发服务模型总结](backend/高并发服务模型总结/高并发服务模型对比分析.md)
+[高并发服务模型总结](backend/高并发服务模型对比分析.md)
 
-[redis实现分布式锁的 3 种方式](backend/高并发服务模型总结/2020-1-28-redis_distributed_locks.md.md)
+[redis实现分布式锁的 3 种方式](backend/2020-1-28-redis_distributed_locks.md.md)
 
-[进程线程协程区别与不同一篇彻底弄懂](backend/进程线程协程/看完这篇，彻底区分进程线程协程.md)
+[进程线程协程区别与不同一篇彻底弄懂](backend/看完这篇，彻底区分进程线程协程.md)
 
 [抢红包背后的分布式锁技术原理](backend/2020-1-29-red_packet_thinking_lock.md)
 
@@ -50,11 +51,11 @@
 
 ## 架构原理
 
-[一文搞懂微服务的前世今生](architecture/微服务介绍/面试都在问的微服务，一文带你彻底搞懂.md)
+[一文搞懂微服务的前世今生](architecture/面试都在问的微服务，一文带你彻底搞懂.md)
 
-[微服务接口 RPC 还是 RESTful](architecture/REST和RPC/RPC_vs_REST.md)
+[微服务接口 RPC 还是 RESTful](architecture/RPC_vs_REST.md)
 
-[什么是一致性哈希](architecture/一致性哈希/什么是一致性哈希.md)
+[什么是一致性哈希](architecture/什么是一致性哈希.md)
 
 
 
@@ -78,7 +79,7 @@
 
 ## 数据库
 
-[MySql 事务详解 10 个事务面试FQA](database/mysql/mysql事务详解/面试官：你说对MySQL事务很熟？那我问你10个问题.md)
+[MySql 事务详解 10 个事务面试FQA](database/mysql/面试官：你说对MySQL事务很熟？那我问你10个问题.md)
 
 [MySql 索引](database/mysql/mysql系列_索引.md)
 
@@ -98,15 +99,15 @@
 
 ### 带你学 Golang 基础系列
 
-[golang开发环境搭建](go/tour_go/01环境配置/golang环境搭建.md)
+[golang开发环境搭建](go/tour_go/golang环境搭建.md)
 
-[基础语法：包-变量-函数](go/tour_go/02基础语法/包-变量-函数.md)
+[基础语法：包-变量-函数](go/tour_go/包-变量-函数.md)
 
-[几种程序控制流](go/tour_go/03控制流/ctrlflow.md)
+[几种程序控制流](go/tour_go/ctrlflow.md)
 
-[8分钟学 Go 语言复合类型](go/tour_go/04复合类型/8分钟学复合类型.md)
+[8分钟学 Go 语言复合类型](go/tour_go/8分钟学复合类型.md)
 
-[Go面向对象方法和接口](go/tour_go/05方法和接口/method_and_if.md)
+[Go面向对象方法和接口](go/tour_go/method_and_if.md)
 
 
 

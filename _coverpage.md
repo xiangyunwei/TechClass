@@ -1,8 +1,9 @@
 
 
 <p align="center">
-<img src="https://upload-images.jianshu.io/upload_images/7842464-15f939ec039690f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" width="200" height="200"/>
+<img src="https://cdn.jsdelivr.net/gh/lemonchann/images/gzh/公众号二维码.png" width="200" height="200"/>
 </p>
+
 
 
 # TechClass
