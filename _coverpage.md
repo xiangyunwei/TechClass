@@ -1,7 +1,7 @@
 
 
 <p align="center">
-<img src="https://cdn.jsdelivr.net/gh/lemonchann/images/gzh/公众号二维码.png" width="200" height="200"/>
+<img src="https://github.com/lemonchann/images/raw/master/gzh/公众号二维码.png" width="200" height="200"/>
 </p>
 
 

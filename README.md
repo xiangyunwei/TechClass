@@ -15,7 +15,7 @@
 **欢迎扫码关注，分享、记录、成长！**
 
 <p align="center">
-<img src="https://cdn.jsdelivr.net/gh/lemonchann/images/gzh/公众号二维码.png" width="300" height="300"/>
+<img src="https://github.com/lemonchann/images/raw/master/gzh/公众号二维码.png" width="300" height="300"/>
 </p>
 
 
@@ -109,7 +109,19 @@
 
 [Go面向对象方法和接口](go/tour_go/method_and_if.md)
 
+## 工具
 
+[史上最香vscode远程开发环境，工作效率提升10倍](tools/vscode远程开发.md)
+
+[还能这么玩，用Vscode画流程图状态图类图时序图..还有谁？](tools/2018-10-12-Play_with_vscode_PlantUML_preview.md)
+
+[写文章神器，markdown简明语法](tools/2018-6-21-Markdown_brief_syntactic.md)
+
+[可能是最全面的博客搭建教程，人人都会搭博客](tools/2019-11-22-create_blog_with_github_pages.md)
+
+[sourcegrap有了这个插件，让你在网站上浏览github比就像IDE操作一样](tools/2020-2-21-sourcegraph.md)
+
+[手动DIY一个自己的图床，再也不怕第三方图床gg了](tools/github_pic_bed.md)
 
 ## TODO
 
