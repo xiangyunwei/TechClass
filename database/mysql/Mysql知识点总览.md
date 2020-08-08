@@ -1,3 +1,7 @@
+### Mysql数据类型
+
+CHAR VARCHAR 
+
 ### 事务ACID
 
 [参考晚期文章](https://mp.weixin.qq.com/s?__biz=MzIwMjM4NDE1Nw==&mid=2247483807&idx=1&sn=760d3b36c3742b0413b7f6f095506fd5&chksm=96de37eda1a9befb371bf03653df7528921262c95ab1483b4ecb86a25a8315a9598c723adaa5&token=969827033&lang=zh_CN#rd)
@@ -116,12 +120,16 @@ SHOW PROCESSLIST
 - 当你仍要保留该表，但要删除所有记录时， 用 truncate
 - 当你要删除部分记录时（always with a where clause), 用 delete
 
+
+
 ### sql语句分类
 
 1. DDL：数据定义语言（create alter drop）
 2. DML：数据操作语句（insert update delete） 
 3. DTL：数据事务语句（commit collback savapoint）
 4. DCL：数据控制语句（grant revoke）
+
+
 
 ### 什么是MySql视图
 
@@ -130,6 +138,8 @@ SHOW PROCESSLIST
 ```sql
 create view view_name as sql查询语句
 ```
+
+
 
 ### 什么是MySql存储过程
 
