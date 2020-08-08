@@ -16,7 +16,7 @@
 
 ### 设置 PicGo
 
-![](https://cdn.jsdelivr.net/gh/lemonchann/images/using_github_picgo_bed/PicGo设置上传参数.png)
+![](https://cdn.jsdelivr.net/gh/lemonchann/images/tools/using_github_picgo_bed/PicGo设置上传参数.png)
 
 因为我win10下使用PicGo客户端总是出现莫名的上传失败现象，可能是网络环境还是啥原因，总之图片能否上传成功完全看PicGo心情。
 
@@ -56,7 +56,7 @@
 
 我选择不开启转义，因为目前我还没发现那个 MD 解析器不能识别未转义的汉字。
 
-![设置图片转义](https://cdn.jsdelivr.net/gh/lemonchann/images/using_github_picgo_bed/设置图片转义.png)
+![设置图片转义](https://cdn.jsdelivr.net/gh/lemonchann/images/tools/using_github_picgo_bed/设置图片转义.png)
 
 ### 导入图片
 
@@ -76,13 +76,13 @@
 
 查看图片在github上的原始地址
 
-![](https://cdn.jsdelivr.net/gh/lemonchann/images/using_github_picgo_bed/复制github图片地址.png)
+![](https://cdn.jsdelivr.net/gh/lemonchann/images/tools/using_github_picgo_bed/复制github图片地址.png)
 
 
 
 按原始地址格式替换 MD 中本地图片地址
 
-![替换本地路径成github图片地址](https://github.com/lemonchann/images/raw/master/using_github_picgo_bed/替换本地路径成github图片地址.png)
+![替换本地路径成github图片地址](https://github.com/lemonchann/images/raw/master/tools/using_github_picgo_bed/替换本地路径成github图片地址.png)
 
 
 
@@ -94,7 +94,7 @@
 
 jsDelivr 是一个快速免费的公用 CDN ，可以加快你的资源访问速度，当然也可以加快你的图片访问速度。
 
-![](https://cdn.jsdelivr.net/gh/lemonchann/images/using_github_picgo_bed/jsDelivr首页.png)
+![](https://cdn.jsdelivr.net/gh/lemonchann/images/tools/using_github_picgo_bed/jsDelivr首页.png)
 
 可以用免费的  jsDelivr CDN 加速图片访问，官网地址 `https://www.jsdelivr.com/?docs=gh`， 使用非常简单方便。
 
@@ -104,7 +104,7 @@ jsDelivr 是一个快速免费的公用 CDN ，可以加快你的资源访问速
 
 通过文本替换方式，把本地图片链接替换成CDN的访问链接，即可轻松实现 CDN 加速图片访问效果。
 
-![](https://cdn.jsdelivr.net/gh/lemonchann/images/using_github_picgo_bed/替换本地路径成网络路径.png)
+![](https://cdn.jsdelivr.net/gh/lemonchann/images/tools/using_github_picgo_bed/替换本地路径成网络路径.png)
 
 
 
