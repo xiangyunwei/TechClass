@@ -64,6 +64,13 @@ toc: true
 
 > :smile: :smile_cat: 
 
+- 添加脚注
+
+  ```text
+  正文[^1]文字
+  [^1]: 脚注内容
+  ```
+
 ### 以我的实践举个图片插入的栗子：
 
 1. 将markdown需要用的图片放到git仓库中，发布到github上
