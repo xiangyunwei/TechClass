@@ -18,6 +18,8 @@
 - 支持事务
   可靠的处理事务并且保持事务的完整性，使得对于安全性能很高的数据访问要求得以实现。
 
+
+
 ## MySQL关系型数据库
 
 ### 什么是SQL
@@ -563,6 +565,8 @@ DROP VIEW 视图名;
 
 
 
+## MySQl 日志相关
+
 ### MySql 有哪些类型日志
 
 MySQL 中主要有六种日志：重做日志（redo log）、回滚日志（undo log）、二进制日志（binlog）、错误日志（errorlog）、慢查询日志（slow query log）、一般查询日志（general log），中继日志（relay log）。[^9] [^10]
@@ -571,60 +575,134 @@ MySQL 中主要有六种日志：重做日志（redo log）、回滚日志（und
 - 查询日志：不要被查询的名字误导，其实查询日志里面记录了数据库执行的所有命令包括INSERT、DELETE、UPDATE，不管语句是否正确，都会被记录。
 - 回滚日志：保存了事务发生之前的数据的一个版本，可以用于回滚，同时可以提供多版本并发控制下的读。
 - 重做日志：防止在发生故障的时间点，尚有脏页未写入磁盘，在重启mysql服务的时候，根据redo log进行重做，从而达到事务的持久性这一特性。
-- 二进制日志：用于主从复制中，从库利用主库上的binlog进行重播，实现主从同步；
-- 慢查询日志：慢查询日志记录的慢查询不仅仅是执行比较慢的SELECT语句，还有INSERT，DELETE，UPDATE，CALL等DML操作，只要超过了指定时间，都可以称为"慢查询"，被记录到慢查询日志中。默认情况下，慢查询日志是不开启的，需要手动开启。
-- 中继日志：中继日志也是二进制日志，用来给slave 库恢复
+- 二进制日志： 记录了对MySQL数据库执行更改的所有操作，并且记录了语句发生时间、执行时长、操作数据等其它额外信息，但是它不记录SELECT、SHOW等那些不修改数据的SQL语句。用于主从复制中，从库利用主库上的binlog进行重播，实现主从同步。
+- 慢查询日志：慢查询日志记录的慢查询不仅仅是执行比较慢的SELECT语句，还有INSERT，DELETE，UPDATE，CALL等 DML 操作，只要超过了指定时间，都可以称为"慢查询"，被记录到慢查询日志中。默认情况下，慢查询日志是不开启的，需要手动开启。
+- 中继日志：中继日志类似二进制日志，用来给 slave 库恢复。是从库服务器 I/O 线程将主库服务器的二进制日志读取过来记录到从库服务器本地文件，然后从库的 SQL 线程会读取 relay-log 日志的内容并应用到从库服务器上。
 
 
 
+### MySQL binlog日志格式由几种？
+
+binlog主要有三种格式：  STATEMENT、ROW 和 MIXED 
+
+-  STATEMENT 格式：binlog 记录的是数据库上执行的原生SQL语句。
+
+  **优点**是数据紧凑，节省存储空间，可以通过mysqlbinlog 工具读懂日志中的内容。 
+
+  **缺点**是同一条 SQL 在主库和从库上执行的时间可能稍微或很大不相同，因为在传输的二进制日志中，除了查询语句，还包括了一些元数据信息，如当前的时间戳。
+
+-  ROW 格式：从 MySQL5.1开始 binlog 支持基于行的复制，不记录执行的sql语句的上下文相关的信息，仅需要记录那一条记录被修改成什么了，这种方式会将实际数据记录在二进制日志中。
+
+  **优点**是可以正确地复制每一行数据，几乎没有 STATEMENT 格式的那些缺点。
+
+  **缺点**是二进制日志可能会很大且不直观，也不能使用mysqlbinlog来查看二进制日志  
+
+- MIXED格式：MIXED也是MySQL默认使用的二进制日志记录方式，但MIXED格式默认采用基于语句的复制，一旦发现基于语句的无法精确的复制时（比如用到UUID()、USER()、CURRENT_USER()、ROW_COUNT()等无法确定的函数），就会采用基于行的复制。
+
+  
 
 
-### MySQL binlog的几种日志录入格式以及区别
+### 如何查看和设置日志相关配置
 
-**Statement**：每一条会修改数据的sql都会记录在binlog中。
+#### 查看日志参数
 
-**优点**：不需要记录每一行的变化，减少了binlog日志量，节约了IO，提高性能。(相比row能节约多少性能 与日志量，这个取决于应用的SQL情况，正常同一条记录修改或者插入row格式所产生的日志量还小于Statement产生的日志量，但是考虑到如果带条 件的update操作，以及整表删除，alter表等操作，ROW格式会产生大量日志，因此在考虑是否使用ROW格式日志时应该跟据应用的实际情况，其所 产生的日志量会增加多少，以及带来的IO性能问题。)
+通过 `show variables like '%log%';` 命令查看日志相关变量值。
 
-**缺点**：由于记录的只是执行语句，为了这些语句能在slave上正确运行，因此还必须记录每条语句在执行的时候的 一些相关信息，以保证所有语句能在slave得到和在master端执行时候相同 的结果。另外mysql 的复制,像一些特定函数功能，slave可与master上要保持一致会有很多相关问题(如sleep()函数， last_insert_id()，以及user-defined functions(udf)会出现问题).
+```sql
+> show variables like '%log%';
++-----------------------------------------+-------------------------------------------------+
+| Variable_name                           | Value                                           |
++-----------------------------------------+-------------------------------------------------+
+| back_log                                | 50                                              |
+| binlog_cache_size                       | 32768                                           |
+| binlog_direct_non_transactional_updates | OFF                                             |
+| binlog_format                           | ROW                                             |
+| binlog_stmt_cache_size                  | 32768                                           |
+| expire_logs_days                        | 0                                               |
+| general_log                             | OFF                                             |
+| general_log_file                        | /data1/mysql_root/data/xxxx.log      |
+| innodb_flush_log_at_trx_commit          | 2                                               |
+| innodb_locks_unsafe_for_binlog          | OFF                                             |
+| innodb_log_buffer_size                  | 67108864                                        |
+| innodb_log_file_size                    | 536870912                                       |
+| innodb_log_files_in_group               | 2                                               |
+| innodb_log_group_home_dir               | /data/mysql_root/log/xxxx                      |
+| innodb_mirrored_log_groups              | 1                                               |
+| log                                     | OFF                                             |
+| log_bin                                 | ON                                              |
+| log_bin_trust_function_creators         | ON                                              |
+| log_error                               | /data1/mysql_root/data/xxxx/xxxx.site.err |
+| log_output                              | FILE                                            |
+| log_queries_not_using_indexes           | OFF                                             |
+| log_slave_updates                       | ON                                              |
+| log_slow_queries                        | ON                                              |
+| log_warnings                            | 1                                               |
+| max_binlog_cache_size                   | 18446744073709547520                            |
+| max_binlog_size                         | 268435456                                       |
+| max_binlog_stmt_cache_size              | 18446744073709547520                            |
+| max_relay_log_size                      | 0                                               |
+| relay_log                               | /data/mysql_root/log/xxxx/relay-bin            |
+| relay_log_index                         |                                                 |
+| relay_log_info_file                     | relay-log.info                                  |
+| relay_log_purge                         | ON                                              |
+| relay_log_recovery                      | OFF                                             |
+| relay_log_space_limit                   | 0                                               |
+| slow_query_log                          | ON                                              |
+| slow_query_log_file                     | /data1/mysql_root/data/xxxx/slow_query.log     |
+| sql_log_bin                             | ON                                              |
+| sql_log_off                             | OFF                                             |
+| sync_binlog                             | 0                                               |
+| sync_relay_log                          | 0                                               |
+| sync_relay_log_info                     | 0                                               |
++-----------------------------------------+-------------------------------------------------
+```
 
-**使用以下函数的语句也无法被复制**：
+#### 设置日志参数
 
-- LOAD_FILE()
-- UUID()
-- USER()
-- FOUND_ROWS()
-- SYSDATE() (除非启动时启用了 --sysdate-is-now 选项)
+有两种设置方式：
 
-同时在INSERT …SELECT 会产生比 RBR 更多的行级锁
-
-**Row**:不记录sql语句上下文相关信息，仅保存哪条记录被修改。
-
-**优点**： binlog中可以不记录执行的sql语句的上下文相关的信息，仅需要记录那一条记录被修改成什么了。所以rowlevel的日志内容会非常清楚的记录下 每一行数据修改的细节。而且不会出现某些特定情况下的存储过程，或function，以及trigger的调用和触发无法被正确复制的问题
-
-**缺点**:所有的执行的语句当记录到日志中的时候，都将以每行记录的修改来记录，这样可能会产生大量的日志内容,比 如一条update语句，修改多条记录，则binlog中每一条修改都会有记录，这样造成binlog日志量会很大，特别是当执行alter table之类的语句的时候，由于表结构修改，每条记录都发生改变，那么该表每一条记录都会记录到日志中。
-
-**Mixedlevel**: 是以上两种level的混合使用，一般的语句修改使用statment格式保存binlog，如一些函数，statement无法完成主从复制的操作，则 采用row格式保存binlog,MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在Statement和Row之间选择 一种.新版本的MySQL中队row level模式也被做了优化，并不是所有的修改都会以row level来记录，像遇到表结构变更的时候就会以statement模式来记录。至于update或者delete等修改数据的语句，还是会记录所有行的变更。
+- 修改配置文件 my.cnf，修改完重启 mysql 服务生效。
+- mysql 命令行设置，比如前面查出`back_log`参数值 50，这里可以修改设置 `set global back_log=60`
 
 
 
-### 什么 是MySql 权限表
-
-Mysql服务器通过权限表来控制用户对数据库的访问，权限表存放在mysql数据库里，由mysql_install_db 脚本初始化。分别是 user，db，table_priv，columns_priv 和 host
-
-### MySql服务默认端口号是多少 
+### MySql服务默认端口号是多少 ？
 
 3306
 
-### 回答一个主键 ID 问题
+查看命令：`> show variables like 'port';`
 
-插入4 条记录，主键自增ID，分别是 0 1 2 3， 删除ID 2 3 的记录，重启MySql， 再插入一条记录，此时插入记录的 ID 是多少？
 
-> 如果表的类型是 MyISAM, 那么是 4
-> 因为 MylSAM表会把自增主键的最大ID记录到数据文件里,重启MSQL自增主键的最大D也不会丢失
-> 如果表的类型是 InnoDB, 那么是2
-> nnoDB表只是把自增主键的最大ID记录到内存中,所以重启数据库或者是对表进行 OPTIMIZE操作, 都导致最大 ID 丢失
 
-###  CHAR和VARCHAR的区别
+## 自增主键相关
+
+### innoDB存储引擎的主键用自增方式还是UUID？
+
+**结论**：为了提高性能 在InnoDB上尽量采用自增字段做主键 。
+
+由于 innoDB 中的主键是聚簇索引，当数据插入时使用B+ 树结构，各条数据按主键顺序排放，使用自增方式生成的主键 ID 是有序的，方便数据插入，减少了插入的磁盘IO消耗。
+
+`UUID`被设计为在空间和时间全球独一无二的数字，UUID 值是一个随机字符串，类似` 887212cf-72fc-11e7-bdf0-f0def1e6678c `这种。由于 UUID 是随机生成唯一值，所以插入数据库时的位置具有不确定性，无序插入会存在许多内存碎片，内存空间的占用量也会比自增主键大，区间查找也没自增主键性能优。
+
+
+
+### 无符号整型自增主键达到最大值再插入会怎么样？
+
+无符号整型主键的范围是 `0～4294967295` ，约`43亿` 
+
+达到最大值再插入会报错：`  Duplicate entry '4294967295' for key 'PRIMARY' `
+
+
+
+###  VARCHAR(50) 能存放几个UTF8编码的汉字？
+
+与版本相关。
+
+mysql 4.0以下版本，varchar(50) `指的是50字节，如果存放utf8汉字时（每个汉字3字节），只能存放16个
+
+mysql 5.0以上版本，varchar(50), 指的是50字符，无论存放的是数字、字母还是 UTF8 汉字，都可以存放50个。
+
+
 
 ### int（20）的含义
 
@@ -654,7 +732,7 @@ Mysql服务器通过权限表来控制用户对数据库的访问，权限表存
 
 
 
-### MySQL的复制原理以及流程
+### MySQL的 主从复制原理以及流程
 
 基本原理流程，3个线程以及之间的关联；
 
@@ -740,4 +818,5 @@ query cache/query_cache_type
 
 [^8]: https://www.cnblogs.com/huchong/p/10231719.html#_lab2_3_0
 [^ 9]:[MySQL到底有多少种日志类型需要我们记住的！- lemon强烈推荐](https://cloud.tencent.com/developer/article/1181844)
-[^10]:[玩转MySQL之八]MySQL日志分类及简介](https://zhuanlan.zhihu.com/p/58011817)
+[^10]:[玩转MySQL之八MySQL日志分类及简介](https://zhuanlan.zhihu.com/p/58011817)
+[^ 11]: [MySQL自增主键用完了怎么办](https://www.cnblogs.com/rjzheng/p/10669043.html)
